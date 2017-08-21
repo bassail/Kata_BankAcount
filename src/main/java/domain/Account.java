@@ -16,6 +16,10 @@ public class Account {
         return this.currentBalance.depose(amount);
     }
 
+    double withdraw(double amount) {
+        return this.currentBalance.withdraw(amount);
+    }
+
     public static final class AccountBuilder {
         private Balance balance;
 

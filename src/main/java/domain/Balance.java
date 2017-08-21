@@ -8,6 +8,10 @@ public class Balance {
         return this.amount += amountOfDeposal;
     }
 
+    public double withdraw(double amountOfWithdrawal) {
+        return this.amount += amountOfWithdrawal;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
