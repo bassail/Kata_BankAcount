@@ -1,17 +1,6 @@
 package domain;
 
 public class Balance {
-
-    double amount;
-
-    public double depose(double amountOfDeposal) {
-        return this.amount += amountOfDeposal;
-    }
-
-    public double withdraw(double amountOfWithdrawal) {
-        return this.amount += amountOfWithdrawal;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -26,6 +15,16 @@ public class Balance {
     public int hashCode() {
         long temp = Double.doubleToLongBits(amount);
         return (int) (temp ^ (temp >>> 32));
+    }
+
+    double amount;
+
+    public double depose(double amountOfDeposal) {
+        return this.amount += amountOfDeposal;
+    }
+
+    public double withdraw(double amountOfWithdrawal) {
+        return this.amount -= amountOfWithdrawal;
     }
 
     public static final class BalanceBuilder {
