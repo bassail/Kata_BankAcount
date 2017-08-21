@@ -1,0 +1,35 @@
+package domain;
+
+import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+
+public class Account_consult_deposeTest {
+
+    @Test
+    public void should_return_empty_bank_account_when_initialize_account_without_money() throws Exception{
+        Balance balance = Balance.BalanceBuilder.aBalance().build();
+        Account account = Account.AccountBuilder.anAccount().withBalance(balance).build();
+        Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(0).build();
+        assertThat(account.checkAccountBalance()).
+                isEqualTo(expectedBalance);
+    }
+
+    @Test
+    public void should_return_bank_balance_when_initialize_account_with_something_different_than_zero() throws Exception {
+        Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
+        Account account = Account.AccountBuilder.anAccount().withBalance(balance).build();
+        Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
+        assertThat(account.checkAccountBalance())
+                .isEqualTo(expectedBalance);
+    }
+
+    @Test
+    public void should_return_same_balance_when_depose_zero() throws Exception {
+        Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
+        Account account = Account.AccountBuilder.anAccount().withBalance(balance).build();
+        account.depose(0);
+        Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
+        assertThat(account.checkAccountBalance())
+                .isEqualTo(expectedBalance);
+    }
+}
