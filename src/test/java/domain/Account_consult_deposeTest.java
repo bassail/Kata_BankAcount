@@ -30,7 +30,7 @@ public class Account_consult_deposeTest {
     public void should_return_same_balance_when_depose_zero() throws Exception {
         Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
         Account account = Account.AccountBuilder.anAccount().withCurrentBalance(balance).build();
-        account.deposeAndSaveOperation(0, LocalDate.now());
+        account.deposeAndSaveOperation(0);
         Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
         assertThat(account.checkAccountBalance())
                 .isEqualTo(expectedBalance);

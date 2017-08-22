@@ -18,20 +18,20 @@ public class Account {
         return this.operations;
     }
 
-    double deposeAndSaveOperation(double amount, LocalDate date){
-        this.createNewOperation(amount, date, "DEPOSIT");
+    double deposeAndSaveOperation(double amount){
+        this.createNewOperation(amount, "DEPOSIT");
         return this.currentBalance.depose(amount);
     }
 
-    private void createNewOperation(double amount, LocalDate date, String type) {
-        this.operations.add(Operation.OperationBuilder.anOperation().withAmount(amount).withDate(date).withType(type).build());
+    private void createNewOperation(double amount, String type) {
+        this.operations.add(Operation.OperationBuilder.anOperation().withAmount(amount).withDate(LocalDate.now()).withType(type).build());
     }
 
-    double withdrawAndSaveOperation(double amount, LocalDate date) {
+    double withdrawAndSaveOperation(double amount) {
         if(amount > this.checkAccountBalance().amount){
             throw new IllegalStateException();
         }
-        this.createNewOperation(amount, date, "WITHDRAWAL");
+        this.createNewOperation(amount, "WITHDRAWAL");
         return this.currentBalance.withdraw(amount);
     }
 

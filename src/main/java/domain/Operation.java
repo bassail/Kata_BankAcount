@@ -1,7 +1,6 @@
 package domain;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Operation {
 
@@ -9,6 +8,28 @@ public class Operation {
     private double amount;
     private String type;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Operation operation = (Operation) o;
+
+        if (Double.compare(operation.amount, amount) != 0) return false;
+        if (date != null ? !date.equals(operation.date) : operation.date != null) return false;
+        return type != null ? type.equals(operation.type) : operation.type == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = date != null ? date.hashCode() : 0;
+        temp = Double.doubleToLongBits(amount);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        return result;
+    }
 
     public static final class OperationBuilder {
         private LocalDate date;
