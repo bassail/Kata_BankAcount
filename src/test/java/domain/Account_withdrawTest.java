@@ -25,4 +25,11 @@ public class Account_withdrawTest {
         assertThat(account.checkAccountBalance())
                 .isEqualTo(expectedBalance);
     }
+
+    @Test(expected = IllegalStateException.class)
+    public void expects_exception_when_withdraw_more_than_balance() throws Exception {
+        Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
+        Account account = Account.AccountBuilder.anAccount().withBalance(balance).build();
+        account.withdraw(20);
+    }
 }

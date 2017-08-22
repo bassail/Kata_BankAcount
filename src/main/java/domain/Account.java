@@ -7,7 +7,6 @@ public class Account {
 
     private Balance currentBalance;
 
-
     Balance checkAccountBalance() {
         return this.currentBalance;
     }
@@ -17,6 +16,9 @@ public class Account {
     }
 
     double withdraw(double amount) {
+        if(amount > this.checkAccountBalance().amount){
+            throw new IllegalStateException();
+        }
         return this.currentBalance.withdraw(amount);
     }
 
