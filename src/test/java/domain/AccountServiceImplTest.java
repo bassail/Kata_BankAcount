@@ -34,7 +34,7 @@ public class AccountServiceImplTest {
         Account account2 = Account.AccountBuilder.anAccount().withBalance(balance1).build();
         accountService.add(account1);
         accountService.add(account2);
-        assertThat(accountService.getAccounts()).containsExactly(account1, account2);
+        assertThat(accountService.getAccounts()).containsExactly(account2, account1);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class AccountServiceImplTest {
         Balance balance = Balance.BalanceBuilder.aBalance().withAmount(0).build();
         Account account = Account.AccountBuilder.anAccount().withBalance(balance).build();
         accountService.add(account);
-        assertThat(accountService.getAccounts().get(0).checkAccountBalance()).isEqualTo(balance);
+        assertThat(accountService.checkAccountBalance(accountService.getAccounts().get(0))).isEqualTo(balance);
     }
 
     @Test
@@ -50,6 +50,14 @@ public class AccountServiceImplTest {
         Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
         Account account = Account.AccountBuilder.anAccount().withBalance(balance).build();
         accountService.add(account);
-        assertThat(accountService.getAccounts().get(0).checkAccountBalance()).isEqualTo(balance);
+        assertThat(accountService.checkAccountBalance(accountService.getAccounts().get(0))).isEqualTo(balance);
+    }
+
+    @Test
+    public void should_withdraw_and_save_operation() throws Exception {
+        Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
+        Account account = Account.AccountBuilder.anAccount().withBalance(balance).build();
+        accountService.add(account);
+
     }
 }
