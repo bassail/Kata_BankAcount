@@ -27,10 +27,11 @@ public class Account {
         this.operations.add(Operation.OperationBuilder.anOperation().withAmount(amount).withDate(date).withType(type).build());
     }
 
-    double withdrawAndSaveOperation(double amount) {
+    double withdrawAndSaveOperation(double amount, LocalDate date) {
         if(amount > this.checkAccountBalance().amount){
             throw new IllegalStateException();
         }
+        this.createNewOperation(amount, date, "WITHDRAWAL");
         return this.currentBalance.withdraw(amount);
     }
 
