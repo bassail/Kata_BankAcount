@@ -25,4 +25,31 @@ public class AccountServiceImplTest {
         accountService.add(account);
         assertThat(accountService.getAccounts()).containsExactly(account);
     }
+
+    @Test
+    public void should_contain_several_accounts_when_adding_several() throws Exception {
+        Balance balance1 = Balance.BalanceBuilder.aBalance().withAmount(0).build();
+        Account account1 = Account.AccountBuilder.anAccount().withBalance(balance1).build();
+        Balance balance2 = Balance.BalanceBuilder.aBalance().withAmount(0).build();
+        Account account2 = Account.AccountBuilder.anAccount().withBalance(balance1).build();
+        accountService.add(account1);
+        accountService.add(account2);
+        assertThat(accountService.getAccounts()).containsExactly(account1, account2);
+    }
+
+    @Test
+    public void should_return_empty_bank_account_when_initialize_account_without_money() throws Exception {
+        Balance balance = Balance.BalanceBuilder.aBalance().withAmount(0).build();
+        Account account = Account.AccountBuilder.anAccount().withBalance(balance).build();
+        accountService.add(account);
+        assertThat(accountService.getAccounts().get(0).checkAccountBalance()).isEqualTo(balance);
+    }
+
+    @Test
+    public void should_return_bank_account_with_initiating_balance() throws Exception {
+        Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
+        Account account = Account.AccountBuilder.anAccount().withBalance(balance).build();
+        accountService.add(account);
+        assertThat(accountService.getAccounts().get(0).checkAccountBalance()).isEqualTo(balance);
+    }
 }
