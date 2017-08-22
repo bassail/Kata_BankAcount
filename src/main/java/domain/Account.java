@@ -1,4 +1,5 @@
 package domain;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Account {
@@ -11,19 +12,25 @@ public class Account {
         return this.currentBalance;
     }
 
-    double depose(double amount){
+    List<Operation> listOperations(){
+        return this.operations;
+    }
+
+    double deposeAndSaveOperation(double amount){
         return this.currentBalance.depose(amount);
     }
 
-    double withdraw(double amount) {
+    double withdrawAndSaveOperation(double amount) {
         if(amount > this.checkAccountBalance().amount){
             throw new IllegalStateException();
         }
         return this.currentBalance.withdraw(amount);
     }
 
+
     public static final class AccountBuilder {
-        private Balance balance;
+        private List<Operation> operations;
+        private Balance currentBalance;
 
         private AccountBuilder() {
         }
@@ -32,14 +39,15 @@ public class Account {
             return new AccountBuilder();
         }
 
-        public AccountBuilder withBalance(Balance balance) {
-            this.balance = balance;
+        public AccountBuilder withCurrentBalance(Balance currentBalance) {
+            this.currentBalance = currentBalance;
             return this;
         }
 
         public Account build() {
             Account account = new Account();
-            account.currentBalance = balance;
+            account.operations = new ArrayList<Operation>();
+            account.currentBalance = this.currentBalance;
             return account;
         }
     }
