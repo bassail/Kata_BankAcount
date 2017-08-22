@@ -1,6 +1,9 @@
 package domain;
 
 import org.junit.Test;
+
+import java.time.LocalDate;
+
 import static org.assertj.core.api.Assertions.*;
 
 public class Account_consult_deposeTest {
@@ -27,7 +30,7 @@ public class Account_consult_deposeTest {
     public void should_return_same_balance_when_depose_zero() throws Exception {
         Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
         Account account = Account.AccountBuilder.anAccount().withCurrentBalance(balance).build();
-        account.deposeAndSaveOperation(0);
+        account.deposeAndSaveOperation(0, LocalDate.now());
         Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
         assertThat(account.checkAccountBalance())
                 .isEqualTo(expectedBalance);

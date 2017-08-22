@@ -1,5 +1,7 @@
 package domain;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Account {
@@ -16,8 +18,13 @@ public class Account {
         return this.operations;
     }
 
-    double deposeAndSaveOperation(double amount){
+    double deposeAndSaveOperation(double amount, LocalDate date){
+        this.createNewOperation(amount, date, "DEPOSIT");
         return this.currentBalance.depose(amount);
+    }
+
+    private void createNewOperation(double amount, LocalDate date, String type) {
+        this.operations.add(Operation.OperationBuilder.anOperation().withAmount(amount).withDate(date).withType(type).build());
     }
 
     double withdrawAndSaveOperation(double amount) {

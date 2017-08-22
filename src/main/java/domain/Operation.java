@@ -1,16 +1,19 @@
 package domain;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Operation {
 
-    private Date date;
+    private LocalDate date;
     private double amount;
+    private String type;
 
 
     public static final class OperationBuilder {
-        private Date date;
+        private LocalDate date;
         private double amount;
+        private String type;
 
         private OperationBuilder() {
         }
@@ -19,7 +22,7 @@ public class Operation {
             return new OperationBuilder();
         }
 
-        public OperationBuilder withDate(Date date) {
+        public OperationBuilder withDate(LocalDate date) {
             this.date = date;
             return this;
         }
@@ -29,10 +32,16 @@ public class Operation {
             return this;
         }
 
+        public OperationBuilder withType(String type) {
+            this.type = type;
+            return this;
+        }
+
         public Operation build() {
             Operation operation = new Operation();
             operation.amount = this.amount;
             operation.date = this.date;
+            operation.type = this.type;
             return operation;
         }
     }
