@@ -36,7 +36,7 @@ public class Account_PrintingOperations {
     public void should_print_no_operation_when_withdrawing_more_than_actual_balance() throws Exception {
         Balance balance = Balance.BalanceBuilder.aBalance().build();
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
-        account.withdrawAndSaveOperation(10.0);
+        account.withdraw(10.0);
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         PrintStream newPrinter = new PrintStream(byteArrayOutputStream);
@@ -51,7 +51,7 @@ public class Account_PrintingOperations {
     public void should_print_one_withdrawal_operation_after_one_valid_withdrawal() throws Exception {
         Balance balance = Balance.BalanceBuilder.aBalance().withAmount(50.0).build();
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
-        account.withdrawAndSaveOperation(10.0);
+        account.withdraw(10.0);
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         PrintStream newPrinter = new PrintStream(byteArrayOutputStream);
@@ -66,9 +66,9 @@ public class Account_PrintingOperations {
     public void should_print_withdrawals_and_deposits_operations_according_to_hystory() throws Exception {
         Balance balance = Balance.BalanceBuilder.aBalance().withAmount(100.0).build();
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
-        account.withdrawAndSaveOperation(10.0);
-        account.deposeAndSaveOperation(50.0);
-        account.withdrawAndSaveOperation(20.0);
+        account.withdraw(10.0);
+        account.depose(50.0);
+        account.withdraw(20.0);
 
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

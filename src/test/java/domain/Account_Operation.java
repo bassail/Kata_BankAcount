@@ -3,9 +3,7 @@ package domain;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import service.DateService;
-import service.DateServiceImpl;
 
 import java.time.LocalDate;
 
@@ -31,7 +29,7 @@ public class Account_Operation {
     public void should_contain_one_operation_after_operation_deposit() throws Exception {
         Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
-        account.deposeAndSaveOperation(10.0);
+        account.depose(10.0);
         assertThat(account.listOperations().size()).isEqualTo(1);
     }
 
@@ -39,7 +37,7 @@ public class Account_Operation {
     public void should_contain_one_operation_after_operation_withdrawal() throws Exception {
         Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
-        account.withdrawAndSaveOperation(10.0);
+        account.withdraw(10.0);
         assertThat(account.listOperations().size()).isEqualTo(1);
     }
 
@@ -49,8 +47,8 @@ public class Account_Operation {
 
         Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
-        account.withdrawAndSaveOperation(10.0);
-        account.deposeAndSaveOperation(10.0);
+        account.withdraw(10.0);
+        account.depose(10.0);
 
         Operation operation1 = Operation.OperationBuilder.anOperation()
                 .withAmount(10.0)

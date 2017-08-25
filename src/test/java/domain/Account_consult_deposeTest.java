@@ -38,7 +38,7 @@ public class Account_consult_deposeTest {
     public void should_return_same_balance_when_depose_zero() throws Exception {
         Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
-        account.deposeAndSaveOperation(0);
+        account.depose(0);
         Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
         assertThat(account.checkAccountBalance())
                 .isEqualTo(expectedBalance);
@@ -48,7 +48,7 @@ public class Account_consult_deposeTest {
     public void should_return_increased_balance_when_deposing_different_than_zero() throws Exception{
         Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
-        account.deposeAndSaveOperation(100.0);
+        account.depose(100.0);
         Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(110.0).build();
         assertThat(account.checkAccountBalance())
                 .isEqualTo(expectedBalance);

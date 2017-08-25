@@ -23,7 +23,7 @@ public class Account {
         return this.operations;
     }
 
-    double deposeAndSaveOperation(double amount){
+    double depose(double amount){
         double newBalance = this.currentBalance.depose(amount);
         this.createNewOperation(amount, DEPOSIT);
         return newBalance;
@@ -34,7 +34,7 @@ public class Account {
        this.operations.add(operation);
     }
 
-    double withdrawAndSaveOperation(double amount) {
+    double withdraw(double amount) {
         if(amount > this.checkAccountBalance().amount){
             return this.currentBalance.amount;
         }
