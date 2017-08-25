@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Account {
-
+    private final String DEPOSIT = "DEPOSIT";
+    private final String WITHDRAWAL = "WITHDRAWAL";
     private List<Operation> operations;
 
     private Balance currentBalance;
+
 
     Balance checkAccountBalance() {
         return this.currentBalance;
@@ -20,7 +22,7 @@ public class Account {
 
     double deposeAndSaveOperation(double amount){
         double newBalance = this.currentBalance.depose(amount);
-        this.createNewOperation(amount, "DEPOSIT");
+        this.createNewOperation(amount, DEPOSIT);
         return newBalance;
     }
 
@@ -34,7 +36,7 @@ public class Account {
             return this.currentBalance.amount;
         }
         double newBalance = this.currentBalance.withdraw(amount);
-        this.createNewOperation(amount, "WITHDRAWAL");
+        this.createNewOperation(amount, WITHDRAWAL);
         return newBalance;
     }
 
