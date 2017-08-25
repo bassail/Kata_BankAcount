@@ -19,22 +19,30 @@ public class Account_consult_deposeTest {
 
     @Test
     public void should_return_bank_balance_when_initialize_account_with_something_different_than_zero() throws Exception {
-        Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
+        Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
         Account account = Account.AccountBuilder.anAccount().withCurrentBalance(balance).build();
-        Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
+        Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
         assertThat(account.checkAccountBalance())
                 .isEqualTo(expectedBalance);
     }
 
     @Test
     public void should_return_same_balance_when_depose_zero() throws Exception {
-        Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
+        Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
         Account account = Account.AccountBuilder.anAccount().withCurrentBalance(balance).build();
         account.deposeAndSaveOperation(0);
-        Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(10).build();
+        Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
         assertThat(account.checkAccountBalance())
                 .isEqualTo(expectedBalance);
     }
 
-    //TODO test depose positive
+    @Test
+    public void should_return_increased_balance_when_deposing_different_than_zero() throws Exception{
+        Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
+        Account account = Account.AccountBuilder.anAccount().withCurrentBalance(balance).build();
+        account.deposeAndSaveOperation(100.0);
+        Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(110.0).build();
+        assertThat(account.checkAccountBalance())
+                .isEqualTo(expectedBalance);
+    }
 }
