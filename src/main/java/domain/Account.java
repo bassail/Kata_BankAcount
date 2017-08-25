@@ -1,6 +1,7 @@
 package domain;
+import service.DateService;
+
 import java.io.PrintStream;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,9 @@ public class Account {
     private final String WITHDRAWAL = "WITHDRAWAL";
     private List<Operation> operations;
 
+
     private Balance currentBalance;
+    private DateService dateService;
 
 
     Balance checkAccountBalance() {
@@ -27,8 +30,8 @@ public class Account {
     }
 
     private void createNewOperation(double amount, String type) {
-       Operation operation = Operation.OperationBuilder.anOperation().withAmount(amount).withBalanceAmount(this.currentBalance.amount).withDate(LocalDate.now()).withType(type).build();
-        this.operations.add(operation);
+       Operation operation = Operation.OperationBuilder.anOperation().withAmount(amount).withBalanceAmount(this.currentBalance.amount).withDate(dateService.getDate()).withType(type).build();
+       this.operations.add(operation);
     }
 
     double withdrawAndSaveOperation(double amount) {
@@ -50,12 +53,14 @@ public class Account {
     public static final class AccountBuilder {
         private List<Operation> operations;
         private Balance currentBalance;
+        private DateService dateService;
 
-        private AccountBuilder() {
+        private AccountBuilder(DateService dateService) {
+            this.dateService = dateService;
         }
 
-        public static AccountBuilder anAccount() {
-            return new AccountBuilder();
+        public static AccountBuilder anAccount(DateService dateService) {
+            return new AccountBuilder(dateService);
         }
 
         public AccountBuilder withCurrentBalance(Balance currentBalance) {
@@ -67,6 +72,7 @@ public class Account {
             Account account = new Account();
             account.operations = new ArrayList<Operation>();
             account.currentBalance = this.currentBalance;
+            account.dateService = this.dateService;
             return account;
         }
     }
