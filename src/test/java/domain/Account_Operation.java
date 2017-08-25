@@ -2,6 +2,7 @@ package domain;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import service.DateService;
 import service.DateServiceImpl;
 
@@ -15,7 +16,7 @@ public class Account_Operation {
 
     @Before
     public void setup() throws Exception{
-        dateService = DateServiceImpl.getInstance();
+        dateService = Mockito.mock(DateService.class);
     }
 
     @Test
@@ -43,34 +44,12 @@ public class Account_Operation {
 
     @Test
     public void should_contain_list_of_all_operations_done() throws Exception {
+        Mockito.doReturn(LocalDate.of(2017, 6, 23)).when(dateService).getDate();
+
         Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
         account.withdrawAndSaveOperation(10.0);
         account.deposeAndSaveOperation(10.0);
-
-
-        Operation operation1 = Operation.OperationBuilder.anOperation()
-                .withAmount(10.0)
-                .withDate(LocalDate.now())
-                .withType("WITHDRAWAL")
-                .build();
-        Operation operation2 = Operation.OperationBuilder.anOperation()
-                .withAmount(10.0)
-                .withDate(LocalDate.now())
-                .withType("DEPOSIT")
-                .build();
-        assertThat(account.listOperations().size()).isEqualTo(2);
-        assertThat(account.listOperations().get(0)).isEqualTo(operation1);
-        assertThat(account.listOperations().get(1)).isEqualTo(operation2);
-    }
-
-    @Test
-    public void should_contain_list_of_all_operations_done_dates() throws Exception {
-        Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
-        Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
-        account.withdrawAndSaveOperation(10.0);
-        account.deposeAndSaveOperation(10.0);
-
 
         Operation operation1 = Operation.OperationBuilder.anOperation()
                 .withAmount(10.0)
@@ -86,6 +65,5 @@ public class Account_Operation {
         assertThat(account.listOperations().get(0)).isEqualTo(operation1);
         assertThat(account.listOperations().get(1)).isEqualTo(operation2);
     }
-
 
 }
