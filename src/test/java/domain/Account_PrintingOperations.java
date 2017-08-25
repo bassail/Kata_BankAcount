@@ -31,5 +31,16 @@ public class Account_PrintingOperations {
         assertThat(output).isEqualTo("");
     }
 
+    @Test
+    public void should_print_no_operation_when_withdrawing_more_than_actual_balance () throws Exception {
+        Balance balance = Balance.BalanceBuilder.aBalance().build();
+        Account account = Account.AccountBuilder.anAccount().withCurrentBalance(balance).build();
+        account.withdrawAndSaveOperation(10);
 
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        System.setOut(printer);
+        account.printOperations(printer);
+        String output = new String(byteArrayOutputStream.toByteArray());
+        assertThat(output).isEqualTo("");
+    }
 }
