@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.PrintStream;
 import java.time.LocalDate;
 
 public class Operation {
@@ -7,6 +8,13 @@ public class Operation {
     private LocalDate date;
     private double amount;
     private String type;
+
+    private final String OPERATIONS_FIRST_LINE = "DATE      | DEPOSAL   | WITHDRAWAL    | BALANCE";
+
+    public void print(PrintStream printer) {
+        //TODO print infos operations
+        printer.println(this.amount);
+    }
 
     @Override
     public boolean equals(Object o) {

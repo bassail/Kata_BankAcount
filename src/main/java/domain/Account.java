@@ -1,7 +1,7 @@
 package domain;
+import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Account {
@@ -29,10 +29,16 @@ public class Account {
 
     double withdrawAndSaveOperation(double amount) {
         if(amount > this.checkAccountBalance().amount){
-            throw new IllegalStateException();
+            return this.currentBalance.amount;
         }
         this.createNewOperation(amount, "WITHDRAWAL");
         return this.currentBalance.withdraw(amount);
+    }
+
+    public void printOperations(PrintStream printer){
+        for (Operation operation : operations) {
+            operation.print(printer);
+        }
     }
 
 
