@@ -1,6 +1,5 @@
 package domain;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +13,7 @@ public class Account_PrintingOperations {
     PrintStream printer;
 
     @Before
-    public void setup(){
+    public void setup() {
         printer = System.out;
     }
 
@@ -30,7 +29,7 @@ public class Account_PrintingOperations {
     }
 
     @Test
-    public void should_print_no_operation_when_withdrawing_more_than_actual_balance () throws Exception {
+    public void should_print_no_operation_when_withdrawing_more_than_actual_balance() throws Exception {
         Balance balance = Balance.BalanceBuilder.aBalance().build();
         Account account = Account.AccountBuilder.anAccount().withCurrentBalance(balance).build();
         account.withdrawAndSaveOperation(10.0);
@@ -56,7 +55,7 @@ public class Account_PrintingOperations {
         account.printOperations(newPrinter);
         System.setOut(printer);
         String output = new String(byteArrayOutputStream.toByteArray());
-        assertThat(output).contains("WITHDRAWAL | "+ LocalDate.now() +" | 10.0");
+        assertThat(output).contains("WITHDRAWAL | " + LocalDate.now() + " | 10.0 | 40.0");
     }
 
     @Test
@@ -74,8 +73,8 @@ public class Account_PrintingOperations {
         account.printOperations(newPrinter);
         System.setOut(printer);
         String output = new String(byteArrayOutputStream.toByteArray());
-        assertThat(output).contains("WITHDRAWAL | "+ LocalDate.now() +" | 10.0");
-        assertThat(output).contains("DEPOSIT | "+ LocalDate.now() +" | 50.0");
-        assertThat(output).contains("WITHDRAWAL | "+ LocalDate.now() +" | 20.0");
+        assertThat(output).contains("WITHDRAWAL | " + LocalDate.now() + " | 10.0 | 90.0");
+        assertThat(output).contains("DEPOSIT | "    + LocalDate.now() + " | 50.0 | 140.0");
+        assertThat(output).contains("WITHDRAWAL | " + LocalDate.now() + " | 20.0 | 120.0");
     }
 }

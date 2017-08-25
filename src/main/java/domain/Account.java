@@ -19,20 +19,23 @@ public class Account {
     }
 
     double deposeAndSaveOperation(double amount){
+        double newBalance = this.currentBalance.depose(amount);
         this.createNewOperation(amount, "DEPOSIT");
-        return this.currentBalance.depose(amount);
+        return newBalance;
     }
 
     private void createNewOperation(double amount, String type) {
-        this.operations.add(Operation.OperationBuilder.anOperation().withAmount(amount).withDate(LocalDate.now()).withType(type).build());
+       Operation operation = Operation.OperationBuilder.anOperation().withAmount(amount).withBalanceAmount(this.currentBalance.amount).withDate(LocalDate.now()).withType(type).build();
+        this.operations.add(operation);
     }
 
     double withdrawAndSaveOperation(double amount) {
         if(amount > this.checkAccountBalance().amount){
             return this.currentBalance.amount;
         }
+        double newBalance = this.currentBalance.withdraw(amount);
         this.createNewOperation(amount, "WITHDRAWAL");
-        return this.currentBalance.withdraw(amount);
+        return newBalance;
     }
 
     public void printOperations(PrintStream printer){

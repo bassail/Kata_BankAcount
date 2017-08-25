@@ -8,10 +8,13 @@ public class Operation {
     private LocalDate date;
     private double amount;
     private String type;
+    private double balanceAmount;
+
     private final String SEPARATOR = " | ";
 
+
     public void print(PrintStream printer) {
-        printer.println(this.type + SEPARATOR + this.date + SEPARATOR + this.amount);
+        printer.println(this.type + SEPARATOR + this.date + SEPARATOR + this.amount + SEPARATOR + this.balanceAmount);
     }
 
     @Override
@@ -41,6 +44,7 @@ public class Operation {
         private LocalDate date;
         private double amount;
         private String type;
+        private double balanceAmount;
 
         private OperationBuilder() {
         }
@@ -59,6 +63,11 @@ public class Operation {
             return this;
         }
 
+        public OperationBuilder withBalanceAmount(double amount) {
+            this.balanceAmount = amount;
+            return this;
+        }
+
         public OperationBuilder withType(String type) {
             this.type = type;
             return this;
@@ -66,9 +75,10 @@ public class Operation {
 
         public Operation build() {
             Operation operation = new Operation();
-            operation.amount = this.amount;
-            operation.date = this.date;
-            operation.type = this.type;
+            operation.amount        = this.amount;
+            operation.balanceAmount = this.balanceAmount;
+            operation.date          = this.date;
+            operation.type          = this.type;
             return operation;
         }
     }
