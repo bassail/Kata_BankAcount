@@ -8,12 +8,10 @@ public class Operation {
     private LocalDate date;
     private double amount;
     private String type;
-
-    private final String OPERATIONS_FIRST_LINE = "DATE      | DEPOSAL   | WITHDRAWAL    | BALANCE";
+    private final String SEPARATOR = " | ";
 
     public void print(PrintStream printer) {
-        //TODO print infos operations
-        printer.println(this.amount);
+        printer.println(this.type + SEPARATOR + this.date + SEPARATOR + this.amount);
     }
 
     @Override
