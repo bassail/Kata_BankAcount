@@ -3,6 +3,7 @@ package domain;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import service.DateService;
 import service.DateServiceImpl;
 
@@ -44,7 +45,7 @@ public class Account_Operation {
 
     @Test
     public void should_contain_list_of_all_operations_done() throws Exception {
-        Mockito.doReturn(LocalDate.of(2017, 6, 23)).when(dateService).getDate();
+        Mockito.when(dateService.getDate()).thenReturn(LocalDate.of(2017, 6, 23), LocalDate.of(2017, 12, 4));
 
         Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
@@ -53,12 +54,12 @@ public class Account_Operation {
 
         Operation operation1 = Operation.OperationBuilder.anOperation()
                 .withAmount(10.0)
-                .withDate(dateService.getDate())
+                .withDate(LocalDate.of(2017, 6, 23))
                 .withType("WITHDRAWAL")
                 .build();
         Operation operation2 = Operation.OperationBuilder.anOperation()
                 .withAmount(10.0)
-                .withDate(dateService.getDate())
+                .withDate(LocalDate.of(2017, 12, 4))
                 .withType("DEPOSIT")
                 .build();
         assertThat(account.listOperations().size()).isEqualTo(2);
