@@ -35,4 +35,14 @@ public class Account_withdrawTest {
                 .isEqualTo(expectedBalance);
     }
 
+    @Test
+    public void should_return_same_balance_when_withdrawing_negative_amount() throws Exception{
+        Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
+        Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
+        account.withdraw(-5.0);
+        Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
+        assertThat(account.checkAccountBalance())
+                .isEqualTo(expectedBalance);
+    }
+
 }

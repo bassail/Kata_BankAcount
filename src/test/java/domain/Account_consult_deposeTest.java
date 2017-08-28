@@ -53,4 +53,14 @@ public class Account_consult_deposeTest {
         assertThat(account.checkAccountBalance())
                 .isEqualTo(expectedBalance);
     }
+
+    @Test
+    public void should_return_same_balance_when_deposing_negative_amount() throws Exception{
+        Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
+        Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
+        account.depose(-5.0);
+        Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
+        assertThat(account.checkAccountBalance())
+                .isEqualTo(expectedBalance);
+    }
 }

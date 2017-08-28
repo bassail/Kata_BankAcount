@@ -1,4 +1,5 @@
 package domain;
+
 import service.DateService;
 
 import java.io.PrintStream;
@@ -19,31 +20,39 @@ public class Account {
         return this.currentBalance;
     }
 
-    List<Operation> listOperations(){
+    List<Operation> listOperations() {
         return this.operations;
     }
 
-    double depose(double amount){
-        double newBalance = this.currentBalance.depose(amount);
-        this.createNewOperation(amount, DEPOSIT);
-        return newBalance;
+    double depose(double amount) {
+        if (amount > 0) {
+            double newBalance = this.currentBalance.depose(amount);
+            this.createNewOperation(amount, DEPOSIT);
+            return newBalance;
+        }else{
+            return amount;
+        }
     }
 
     private void createNewOperation(double amount, String type) {
-       Operation operation = Operation.OperationBuilder.anOperation().withAmount(amount).withBalanceAmount(this.currentBalance.amount).withDate(dateService.getDate()).withType(type).build();
-       this.operations.add(operation);
+        Operation operation = Operation.OperationBuilder.anOperation().withAmount(amount).withBalanceAmount(this.currentBalance.amount).withDate(dateService.getDate()).withType(type).build();
+        this.operations.add(operation);
     }
 
     double withdraw(double amount) {
-        if(amount > this.checkAccountBalance().amount){
-            return this.currentBalance.amount;
+        if (amount > 0) {
+            if (amount > this.checkAccountBalance().amount) {
+                return this.currentBalance.amount;
+            }
+            double newBalance = this.currentBalance.withdraw(amount);
+            this.createNewOperation(amount, WITHDRAWAL);
+            return newBalance;
+        }else{
+            return amount;
         }
-        double newBalance = this.currentBalance.withdraw(amount);
-        this.createNewOperation(amount, WITHDRAWAL);
-        return newBalance;
     }
 
-    public void printOperations(PrintStream printer){
+    public void printOperations(PrintStream printer) {
         for (Operation operation : operations) {
             operation.print(printer);
         }
