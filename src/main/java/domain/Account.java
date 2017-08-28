@@ -1,5 +1,6 @@
 package domain;
 
+import domain.exceptions.IllegalNegativeAmountException;
 import service.DateService;
 
 import java.io.PrintStream;
@@ -20,13 +21,13 @@ public class Account {
         return this.operations;
     }
 
-    double depose(double amount) {
-        if (amount > 0) {
+    double depose(double amount) throws IllegalNegativeAmountException {
+        if (amount >= 0) {
             double newBalance = this.currentBalance.depose(amount);
             this.createNewOperation(amount, OperationType.DEPOSIT.name());
             return newBalance;
         }else{
-            return amount;
+            throw new IllegalNegativeAmountException();
         }
     }
 
@@ -35,8 +36,8 @@ public class Account {
         this.operations.add(operation);
     }
 
-    double withdraw(double amount) {
-        if (amount > 0) {
+    double withdraw(double amount) throws IllegalNegativeAmountException {
+        if (amount >= 0) {
             if (amount > this.getAccountBalance().amount) {
                 return this.currentBalance.amount;
             }
@@ -44,7 +45,7 @@ public class Account {
             this.createNewOperation(amount, OperationType.WITHDRAWAL.name());
             return newBalance;
         }else{
-            return amount;
+            throw new IllegalNegativeAmountException();
         }
     }
 

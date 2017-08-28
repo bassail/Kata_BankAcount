@@ -1,5 +1,6 @@
 package domain;
 
+import domain.exceptions.IllegalNegativeAmountException;
 import org.junit.Before;
 import org.junit.Test;
 import service.DateService;
@@ -35,7 +36,7 @@ public class Account_withdrawTest {
                 .isEqualTo(expectedBalance);
     }
 
-    @Test //(expected = IllegalNegativeAmountException.class)
+    @Test (expected = IllegalNegativeAmountException.class)
     public void should_return_same_balance_when_withdrawing_negative_amount() throws Exception{
         Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
