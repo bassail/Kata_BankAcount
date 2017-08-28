@@ -1,6 +1,7 @@
 package domain;
 
-import java.io.PrintStream;
+import service.PrinterService;
+
 import java.time.LocalDate;
 
 public class Operation {
@@ -13,8 +14,8 @@ public class Operation {
     private final String SEPARATOR = " | ";
 
 
-    public void print(PrintStream printer) {
-        printer.println(this.type + SEPARATOR + this.date + SEPARATOR + this.amount + SEPARATOR + this.balanceAmount);
+    public void print(PrinterService printer) {
+        printer.print(this.type + SEPARATOR + this.date + SEPARATOR + this.amount + SEPARATOR + this.balanceAmount);
     }
 
     @Override

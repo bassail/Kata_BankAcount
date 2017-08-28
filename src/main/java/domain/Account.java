@@ -2,8 +2,8 @@ package domain;
 
 import domain.exceptions.IllegalNegativeAmountException;
 import service.DateService;
+import service.PrinterService;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class Account {
         }
     }
 
-    public void printOperations(PrintStream printer) {
+    public void printOperations(PrinterService printer) {
         for (Operation operation : operations) {
             operation.print(printer);
         }

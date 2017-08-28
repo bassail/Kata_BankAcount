@@ -2,33 +2,35 @@ package domain;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import service.DateService;
 import service.DateServiceImpl;
+import service.PrinterService;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.time.LocalDate;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
+@RunWith(MockitoJUnitRunner.class)
 public class Account_PrintingOperations {
-    PrintStream printer;
+    @Mock
+    PrinterService printer;
     private DateService dateService;
 
     @Before
     public void setup() {
         dateService = DateServiceImpl.getInstance();
-        printer = System.out;
     }
 
     @Test
     public void should_print_no_operations_when_no_operation_in_account() throws Exception {
         Balance balance = Balance.BalanceBuilder.aBalance().build();
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         account.printOperations(printer);
-        String output = new String(byteArrayOutputStream.toByteArray());
-        assertThat(output).isEqualTo("");
+        verifyZeroInteractions(printer);
     }
 
     @Test
@@ -37,12 +39,8 @@ public class Account_PrintingOperations {
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
         account.withdraw(10.0);
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        PrintStream newPrinter = new PrintStream(byteArrayOutputStream);
-        System.setOut(newPrinter);
-        account.printOperations(newPrinter);
-        String output = new String(byteArrayOutputStream.toByteArray());
-        assertThat(output).isEqualTo("");
+        account.printOperations(printer);
+        verifyZeroInteractions(printer);
     }
 
     @Test
@@ -51,12 +49,8 @@ public class Account_PrintingOperations {
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
         account.withdraw(10.0);
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        PrintStream newPrinter = new PrintStream(byteArrayOutputStream);
-        System.setOut(newPrinter);
-        account.printOperations(newPrinter);
-        String output = new String(byteArrayOutputStream.toByteArray());
-        assertThat(output).contains("WITHDRAWAL | " + LocalDate.now() + " | 10.0 | 40.0");
+        account.printOperations(printer);
+        verify(printer).print("WITHDRAWAL | " + LocalDate.now() + " | 10.0 | 40.0");
     }
 
     @Test
@@ -68,14 +62,9 @@ public class Account_PrintingOperations {
         account.withdraw(20.0);
 
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        PrintStream newPrinter = new PrintStream(byteArrayOutputStream);
-        System.setOut(newPrinter);
-        account.printOperations(newPrinter);
-        String output = new String(byteArrayOutputStream.toByteArray());
-
-        assertThat(output).contains("WITHDRAWAL | " + LocalDate.now() + " | 10.0 | 90.0");
-        assertThat(output).contains("DEPOSIT | "    + LocalDate.now() + " | 50.0 | 140.0");
-        assertThat(output).contains("WITHDRAWAL | " + LocalDate.now() + " | 20.0 | 120.0");
+        account.printOperations(printer);
+        verify(printer).print("WITHDRAWAL | " + LocalDate.now() + " | 10.0 | 90.0");
+        verify(printer).print("DEPOSIT | "    + LocalDate.now() + " | 50.0 | 140.0");
+        verify(printer).print("WITHDRAWAL | " + LocalDate.now() + " | 20.0 | 120.0");
     }
 }
