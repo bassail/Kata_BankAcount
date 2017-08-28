@@ -70,7 +70,7 @@ public class Account {
 
         public Account build() {
             Account account = new Account();
-            account.operations = new ArrayList<Operation>();
+            account.operations = new ArrayList<>();
             account.currentBalance = this.currentBalance;
             account.dateService = this.dateService;
             return account;
