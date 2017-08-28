@@ -26,7 +26,6 @@ public class Account_PrintingOperations {
         Balance balance = Balance.BalanceBuilder.aBalance().build();
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        System.setOut(printer);
         account.printOperations(printer);
         String output = new String(byteArrayOutputStream.toByteArray());
         assertThat(output).isEqualTo("");
@@ -42,7 +41,6 @@ public class Account_PrintingOperations {
         PrintStream newPrinter = new PrintStream(byteArrayOutputStream);
         System.setOut(newPrinter);
         account.printOperations(newPrinter);
-        System.setOut(printer);
         String output = new String(byteArrayOutputStream.toByteArray());
         assertThat(output).isEqualTo("");
     }
@@ -57,7 +55,6 @@ public class Account_PrintingOperations {
         PrintStream newPrinter = new PrintStream(byteArrayOutputStream);
         System.setOut(newPrinter);
         account.printOperations(newPrinter);
-        System.setOut(printer);
         String output = new String(byteArrayOutputStream.toByteArray());
         assertThat(output).contains("WITHDRAWAL | " + LocalDate.now() + " | 10.0 | 40.0");
     }
@@ -75,8 +72,8 @@ public class Account_PrintingOperations {
         PrintStream newPrinter = new PrintStream(byteArrayOutputStream);
         System.setOut(newPrinter);
         account.printOperations(newPrinter);
-        System.setOut(printer);
         String output = new String(byteArrayOutputStream.toByteArray());
+
         assertThat(output).contains("WITHDRAWAL | " + LocalDate.now() + " | 10.0 | 90.0");
         assertThat(output).contains("DEPOSIT | "    + LocalDate.now() + " | 50.0 | 140.0");
         assertThat(output).contains("WITHDRAWAL | " + LocalDate.now() + " | 20.0 | 120.0");

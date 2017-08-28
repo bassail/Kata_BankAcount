@@ -7,16 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Account {
-    private final String DEPOSIT = "DEPOSIT";
-    private final String WITHDRAWAL = "WITHDRAWAL";
     private List<Operation> operations;
-
-
     private Balance currentBalance;
     private DateService dateService;
 
 
-    Balance checkAccountBalance() {
+    Balance getAccountBalance() {
         return this.currentBalance;
     }
 
@@ -27,7 +23,7 @@ public class Account {
     double depose(double amount) {
         if (amount > 0) {
             double newBalance = this.currentBalance.depose(amount);
-            this.createNewOperation(amount, DEPOSIT);
+            this.createNewOperation(amount, OperationType.DEPOSIT.name());
             return newBalance;
         }else{
             return amount;
@@ -41,11 +37,11 @@ public class Account {
 
     double withdraw(double amount) {
         if (amount > 0) {
-            if (amount > this.checkAccountBalance().amount) {
+            if (amount > this.getAccountBalance().amount) {
                 return this.currentBalance.amount;
             }
             double newBalance = this.currentBalance.withdraw(amount);
-            this.createNewOperation(amount, WITHDRAWAL);
+            this.createNewOperation(amount, OperationType.WITHDRAWAL.name());
             return newBalance;
         }else{
             return amount;

@@ -21,7 +21,7 @@ public class Account_withdrawTest {
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
         account.withdraw(0);
         Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
-        assertThat(account.checkAccountBalance())
+        assertThat(account.getAccountBalance())
                 .isEqualTo(expectedBalance);
     }
 
@@ -31,17 +31,17 @@ public class Account_withdrawTest {
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
         account.withdraw(5.0);
         Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(5.0).build();
-        assertThat(account.checkAccountBalance())
+        assertThat(account.getAccountBalance())
                 .isEqualTo(expectedBalance);
     }
 
-    @Test
+    @Test //(expected = IllegalNegativeAmountException.class)
     public void should_return_same_balance_when_withdrawing_negative_amount() throws Exception{
         Balance balance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
         Account account = Account.AccountBuilder.anAccount(dateService).withCurrentBalance(balance).build();
         account.withdraw(-5.0);
         Balance expectedBalance = Balance.BalanceBuilder.aBalance().withAmount(10.0).build();
-        assertThat(account.checkAccountBalance())
+        assertThat(account.getAccountBalance())
                 .isEqualTo(expectedBalance);
     }
 
